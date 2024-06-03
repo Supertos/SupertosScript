@@ -1,5 +1,6 @@
 # Supertos Script language
 This readme.md covers Supertos Script (SS in the following text) concepts and syntax.
+Supertos Script is still under development and as for now lacks even basic functionality.
 ## Variables
 Variables in SS may only contain number. **As PDXScript limits variable range to ~2M and allows precision up to 3 digits it is also the case with SS**. Variables do not have to be declared, instead it is assumed that any undeclared variable has value of 0 by default. These are common actions with the variables in SS:
 

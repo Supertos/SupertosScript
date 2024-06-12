@@ -26,8 +26,8 @@ To access array element use:
 > array_name^element_id
 
 ## Functions
-Functions are the piece of code that can be referenced from the other place in your code. **As PDXScript categorizes functions as second-class citizens, that's also the case with SS**. **As Clausewitz engine requires functions to be declared in separate file, an output reflecting this will be produced**. Functions declared as follows:
-> function function_name( argument_a, argument_b, argument_c )
+Functions are the piece of code that can be referenced from other places in your code. **As PDXScript categorizes functions as second-class citizens, that's also the case with SS**. **As Clausewitz engine requires functions to be declared in separate file, an output reflecting this will be produced**. Functions declared as follows:
+> function function_name( argument_a argument_b argument_c ) \# Note that there's no comma separating arguments
 >  \# Function body
 > end
 
@@ -43,7 +43,7 @@ Function may return numeric value at the end of their execution using "return" k
 
 ## On Actions
 Special type of function called On Action is the piece of code that runs once engine issues event. **Since PDXScript does not support custom events, special naming to these functions shall be applied.** Refer to Paradox wiki for info. Example:
-> on_action on_startup() \# on_actions has no arguments
+> on_action on_startup() \# on_actions have no arguments
 >
 >end
 

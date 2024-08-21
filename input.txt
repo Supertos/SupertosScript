@@ -1,12 +1,15 @@
 function generic( where when who ):
-	array cake {13, 0}
-	scope SOV:
+	local array cake {13, 0}
+	SOV:
 		for i = 0, i < 128, 1:
 			if is_at_war_with( GER ):
-				scope random_owned_state:
-					transfer_state_to( target = who ); # Sample commentary
-				end
+				random_owned_state:
+					transfer_state_to( target = who ) # Sample commentary
+			    end
+			else:
+                declare_war_on( target = when )
 			end
 		end
 	end
 end
+

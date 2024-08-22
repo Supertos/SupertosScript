@@ -1,5 +1,7 @@
 function generic( where when who ):
 	local array cake {13, 0}
+	local number a 128
+	a = (96 + cake^3) / 2
 	SOV:
 		for i = 0, i < 128, 1:
 			if is_at_war_with( GER ):
@@ -12,4 +14,3 @@ function generic( where when who ):
 		end
 	end
 end
-

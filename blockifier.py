@@ -3,32 +3,40 @@ import values
 
 class Block:
     def __init__(self):
-        self.header = []
-        self.contents = []
+        self.header = tokenizer.TokenList()
+        self.contents = tokenizer.TokenList()
         self.parent = None
         self.type = None
         self.readPos = -1
 
+        self.objData = [] # List of local symbols
+
+    def appendObjData(self, obj):
+        self.objData.append(obj)
+
+    def addObjData(self, obj):
+        self.objData += obj
+
     def readContent(self):
         self.readPos += 1
-        if self.readPos >= len(self.contents): return None
-        return self.contents[self.readPos]
+        if self.readPos >= len(self.contents.list): return None
+        return self.contents.list[self.readPos]
 
     def setType(self, type):
         self.type = type
 
     def setHeader(self, header):
-        self.header = header
+        self.header.list = header
 
-    def setContents(self, contents):
-        self.contents = contents
+    def appendContents(self, contents):
+        self.contents.appendTokens(contents)
 
     def setParent(self, parent):
         self.parent = parent
 
     def print(self, lv=0):
-        out = f"\t"*lv+f"({self.type}):" + str([el.data for el in self.header]) + "\n" + f"\t"*lv
-        for token in self.contents:
+        out = f"\t"*lv+f"({self.type}):" + str([el.data for el in self.header.list]) + "\n" + f"\t"*lv
+        for token in self.contents.list:
             if isinstance(token, Block):
                 out += "\n" + token.print(lv+1) + "\n"
             else:
@@ -51,18 +59,17 @@ class Blockifier:
         self.block = self.block.parent
 
     def appendTokens(self, tokens):
-        self.block.contents += tokens
-
+        self.block.appendContents(tokens)
 
     def setType(self, type):
         self.block.type = type
 
     def appendBlock(self, block):
         block.parent = self.block
-        self.block.contents.append(block)
+        self.block.appendContents([block])
 
     def setHeader(self, header):
-        self.block.header = header
+        self.block.setHeader(header)
 
     def processBlockContents(self):
         while not self.tokens.finished():
@@ -79,6 +86,7 @@ class Blockifier:
                 return
 
     def processBlock(self, start):
+        if not start: return
         block = Block()
         self.appendBlock(block)
         self.enterBlock(block)

@@ -123,7 +123,7 @@ class TokenList:
             if equationLv == 0: break
 
             if a.hasFlag( values.TKN_NUMBER ) or a.hasFlag( values.TKN_OPERATOR ) or a.hasFlag( values.TKN_BRACKETS ):
-                out.append( a.data ) # Operators and numbers do not have associated info
+                out.append( a ) # Operators and numbers do not have associated info
             else:
                 next = self.readToken()
                 self.returnCursor(2)
@@ -234,9 +234,3 @@ class Tokenizer:
             else:
                 self.pushChar(char)
         return self.tokens
-
-
-
-
-
-

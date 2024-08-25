@@ -23,22 +23,56 @@ class Statemizer:
     def quitBlock(self):
         self.block = self.block.parent
     def statemizeBlockHeader(self):
+        tokens = self.block.header
         if self.block.type == "function" or self.block.type == "trigger" or self.block.type == "on_action":
-            symbol = self.block.header.readToken()
+            symbol = tokens.readToken()
 
-            self.block.header.expectSymbol("(")
+            tokens.expectSymbol("(")
             out = []
-            tkn = self.block.header.readToken()
+            tkn = tokens.readToken()
             while tkn.data != ")":
                 out.append( codeobj.Variable() )
                 out[-1].isLocal = True
                 out[-1] = tkn.data
-                tkn = self.block.header.readToken()
+                tkn = tokens.readToken()
 
             obj = codeobj.Function(symbol, out)
-
+            self.block.header = obj
             self.addGlobalDeclaration(obj)
         elif self.block.type == "if":
+            obj = tokens.expectObjectEquation()
+            self.block.header = obj
+        elif self.block.type == "for":
+            a = tokens.expectObjectVariable()
+            b = tokens.readToken()
+
+            if b.hasData("="): # Generic for with counter.
+                start = tokens.expectNumber()
+                tokens.expectSymbol(",")
+
+                aa = tokens.expectObjectVariable() # raise Exception if aa != a !!
+                operator = tokens.readToken()
+                limit = tokens.expectNumber()
+
+                tokens.expectSymbol(",")
+
+                delta = tokens.expectNumber()
+
+
+            elif b.hasData("in"): # For each, only value
+                array = self.block.header.readToken()
+            elif b.hasData(",") # For each, index, value
+
+            else:
+                raise ValueError("Invalid for loop syntax!")
+
+        elif self.block.type == "while":
+            pass # TODO
+        elif self.block.type == "object":
+            pass # TODO
+        elif self.block.type == "meta":
+            pass # TODO
+        else: # scope
             pass # TODO
 
     def statemizeBlockContents(self):

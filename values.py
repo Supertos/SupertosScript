@@ -70,7 +70,10 @@ TokensOperator = [
     "/",
     "-",
     "+",
-    "^"
+    "^",
+    "and",
+    "or",
+    "not"
 ]
 
 TokensBrackets = [
